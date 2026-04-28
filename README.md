@@ -56,8 +56,7 @@ linear.y – 左右方向速度 (m/s)
 
 linear.z – 升降速度 (m/s)
 
-angular.z – 自旋角速度 (rad/s)
-
+angular.z – 自旋角速度 (rad/s)<br>
 
 ### 🔸 降落服务（优先级 2）
 
@@ -69,7 +68,7 @@ angular.z – 自旋角速度 (rad/s)
 ros2 service call /serial_protocol_node/land std_srvs/srv/Trigger
 ```
 
-
+ 
 ### 🔸 解锁服务（优先级 3）
 **服务**：`/serial_protocol_node/arm`  
 **类型**：`std_srvs/srv/Trigger`
@@ -78,8 +77,8 @@ ros2 service call /serial_protocol_node/land std_srvs/srv/Trigger
 ```bash
 ros2 service call /serial_protocol_node/arm std_srvs/srv/Trigger
 ```
-
-
+ 
+ 
 ### 🔸 锁定服务（优先级 4）
 **服务**：`/serial_protocol_node/disarm`  
 **类型**：`std_srvs/srv/Trigger`
