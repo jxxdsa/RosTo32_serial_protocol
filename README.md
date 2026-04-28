@@ -17,9 +17,6 @@
   - [🔸 解锁服务（优先级 3）](#-解锁服务优先级-3)
   - [🔸 锁定服务（优先级 4）](#-锁定服务优先级-4)
   - [🔴 紧急停机服务（优先级 5 - 最高）](#-紧急停机服务优先级-5---最高)
-- [快速开始](#快速开始)
-- [依赖项](#依赖项)
-- [许可证](#许可证)
 
 ---
 
@@ -61,60 +58,7 @@ linear.z – 升降速度 (m/s)
 
 angular.z – 自旋角速度 (rad/s)
 
-🔸 降落服务（优先级 2）
-服务：/serial_protocol_node/land
-类型：std_srvs/srv/Trigger
+### 🔸 降落服务（优先级 2）
 
-bash
-ros2 service call /serial_protocol_node/land std_srvs/srv/Trigger
-🔸 解锁服务（优先级 3）
-服务：/serial_protocol_node/arm
-类型：std_srvs/srv/Trigger
-
-bash
-ros2 service call /serial_protocol_node/arm std_srvs/srv/Trigger
-🔸 锁定服务（优先级 4）
-服务：/serial_protocol_node/disarm
-类型：std_srvs/srv/Trigger
-
-bash
-ros2 service call /serial_protocol_node/disarm std_srvs/srv/Trigger
-🔴 紧急停机服务（优先级 5 - 最高）
-服务：/serial_protocol_node/emergency
-类型：std_srvs/srv/Trigger
-
-bash
-ros2 service call /serial_protocol_node/emergency std_srvs/srv/Trigger
-⚠️ 调用后将立刻切断电机输出，不可恢复（需重新上锁/解锁）。
-
-快速开始
-bash
-# 1. 克隆并编译
-cd ~/ros2_ws/src
-git clone <your-repo-url>
-cd ..
-colcon build --packages-select ros_to_32_serial_protocol
-
-# 2. 配置串口权限
-sudo chmod 666 /dev/ttyUSB0
-
-# 3. 运行节点
-ros2 run ros_to_32_serial_protocol serial_protocol_node --ros-args -p port:=/dev/ttyUSB0 -p baud:=115200
-
-# 4. 发送飞行指令（先解锁）
-ros2 service call /serial_protocol_node/arm std_srvs/srv/Trigger
-ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
-  "{linear: {x: 0.5, y: 0.0, z: 0.2}, angular: {z: 0.3}}"
-依赖项
-ROS 2 Humble（或更高版本）
-
-geometry_msgs
-
-std_srvs
-
-rclcpp
-
-支持串口通信的 Linux 环境（如 Ubuntu 22.04）
-
-许可证
-本项目采用 MIT License。
+**服务**：`/serial_protocol_node/land`  
+**类型**：`std_srvs/srv/Trigger`
