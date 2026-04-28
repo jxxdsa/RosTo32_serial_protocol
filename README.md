@@ -50,7 +50,6 @@
 ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.5, y: 0.0, z: 0.2}, angular: {z: 0.3}}"
 ```
-
 linear.x – 前后方向速度 (m/s)
 
 linear.y – 左右方向速度 (m/s)
@@ -63,3 +62,36 @@ angular.z – 自旋角速度 (rad/s)
 
 **服务**：`/serial_protocol_node/land`  
 **类型**：`std_srvs/srv/Trigger`
+调用 /serial_protocol_node/land 服务（std_srvs/srv/Trigger）以触发降落指令。
+
+```bash
+ros2 service call /serial_protocol_node/land std_srvs/srv/Trigger
+```
+
+### 🔸 解锁服务（优先级 3）
+**服务**：`/serial_protocol_node/arm`  
+**类型**：`std_srvs/srv/Trigger`
+调用 /serial_protocol_node/arm 服务（std_srvs/srv/Trigger）以解锁电机。
+
+```bash
+ros2 service call /serial_protocol_node/arm std_srvs/srv/Trigger
+```
+
+### 🔸 锁定服务（优先级 4）
+**服务**：`/serial_protocol_node/disarm`  
+**类型**：`std_srvs/srv/Trigger`
+调用 /serial_protocol_node/disarm 服务（std_srvs/srv/Trigger）以锁定电机。
+
+```bash
+ros2 service call /serial_protocol_node/disarm std_srvs/srv/Trigger
+```
+
+### 🔴 紧急停机服务（优先级 5 - 最高）
+**服务**：`/serial_protocol_node/emergency`  
+**类型**：`std_srvs/srv/Trigger`
+调用 /serial_protocol_node/emergency 服务（std_srvs/srv/Trigger）将立刻切断电机输出，不可恢复（需重新上锁/解锁）。
+
+```bash
+ros2 service call /serial_protocol_node/emergency std_srvs/srv/Trigger
+```
+⚠️ 仅限紧急情况使用，调用后飞行器会立即停止所有电机。
