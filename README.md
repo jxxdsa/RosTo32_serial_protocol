@@ -17,9 +17,6 @@
   - [🔸 解锁服务（优先级 3）](#-解锁服务优先级-3)
   - [🔸 锁定服务（优先级 4）](#-锁定服务优先级-4)
   - [🔴 紧急停机服务（优先级 5 - 最高）](#-紧急停机服务优先级-5---最高)
-- [快速开始](#快速开始)
-- [依赖项](#依赖项)
-- [许可证](#许可证)
 
 ---
 
@@ -52,69 +49,53 @@
 ```bash
 ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.5, y: 0.0, z: 0.2}, angular: {z: 0.3}}"
-  
+```
 linear.x – 前后方向速度 (m/s)
 
 linear.y – 左右方向速度 (m/s)
 
 linear.z – 升降速度 (m/s)
 
-angular.z – 自旋角速度 (rad/s)
+angular.z – 自旋角速度 (rad/s)<br>
 
-🔸 降落服务（优先级 2）
-服务：/serial_protocol_node/land
-类型：std_srvs/srv/Trigger
 
-bash
+### 🔸 降落服务（优先级 2）
+
+**服务**：`/serial_protocol_node/land`  
+**类型**：`std_srvs/srv/Trigger`
+调用 /serial_protocol_node/land 服务（std_srvs/srv/Trigger）以触发降落指令。
+
+```bash
 ros2 service call /serial_protocol_node/land std_srvs/srv/Trigger
-🔸 解锁服务（优先级 3）
-服务：/serial_protocol_node/arm
-类型：std_srvs/srv/Trigger
+```
 
-bash
+ 
+### 🔸 解锁服务（优先级 3）
+**服务**：`/serial_protocol_node/arm`  
+**类型**：`std_srvs/srv/Trigger`
+调用 /serial_protocol_node/arm 服务（std_srvs/srv/Trigger）以解锁电机。
+
+```bash
 ros2 service call /serial_protocol_node/arm std_srvs/srv/Trigger
-🔸 锁定服务（优先级 4）
-服务：/serial_protocol_node/disarm
-类型：std_srvs/srv/Trigger
+```
+ 
+ 
+### 🔸 锁定服务（优先级 4）
+**服务**：`/serial_protocol_node/disarm`  
+**类型**：`std_srvs/srv/Trigger`
+调用 /serial_protocol_node/disarm 服务（std_srvs/srv/Trigger）以锁定电机。
 
-bash
+```bash
 ros2 service call /serial_protocol_node/disarm std_srvs/srv/Trigger
-🔴 紧急停机服务（优先级 5 - 最高）
-服务：/serial_protocol_node/emergency
-类型：std_srvs/srv/Trigger
+```
 
-bash
+
+### 🔴 紧急停机服务（优先级 5 - 最高）
+**服务**：`/serial_protocol_node/emergency`  
+**类型**：`std_srvs/srv/Trigger`
+调用 /serial_protocol_node/emergency 服务（std_srvs/srv/Trigger）将立刻切断电机输出，不可恢复（需重新上锁/解锁）。
+
+```bash
 ros2 service call /serial_protocol_node/emergency std_srvs/srv/Trigger
-⚠️ 调用后将立刻切断电机输出，不可恢复（需重新上锁/解锁）。
-
-快速开始
-bash
-# 1. 克隆并编译
-cd ~/ros2_ws/src
-git clone <your-repo-url>
-cd ..
-colcon build --packages-select ros_to_32_serial_protocol
-
-# 2. 配置串口权限
-sudo chmod 666 /dev/ttyUSB0
-
-# 3. 运行节点
-ros2 run ros_to_32_serial_protocol serial_protocol_node --ros-args -p port:=/dev/ttyUSB0 -p baud:=115200
-
-# 4. 发送飞行指令（先解锁）
-ros2 service call /serial_protocol_node/arm std_srvs/srv/Trigger
-ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
-  "{linear: {x: 0.5, y: 0.0, z: 0.2}, angular: {z: 0.3}}"
-依赖项
-ROS 2 Humble（或更高版本）
-
-geometry_msgs
-
-std_srvs
-
-rclcpp
-
-支持串口通信的 Linux 环境（如 Ubuntu 22.04）
-
-许可证
-本项目采用 MIT License。
+```
+⚠️ 仅限紧急情况使用，调用后飞行器会立即停止所有电机。
