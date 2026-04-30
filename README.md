@@ -47,8 +47,7 @@
 **消息类型**：`geometry_msgs/msg/Twist`  
 
 ```bash
-ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
-  "{linear: {x: 0.5, y: 0.0, z: 0.2}, angular: {z: 0.3}}"
+ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.01}, angular: {z: 0.0}}"
 ```
 linear.x – 前后方向速度 (m/s)
 
