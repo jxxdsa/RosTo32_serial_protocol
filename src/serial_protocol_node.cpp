@@ -183,16 +183,30 @@ private:
     void recompute_base_command() {
         double timeout = this->get_parameter("vel_timeout").as_double();
         bool vel_active = ((this->now() - last_vel_time_).seconds() < timeout);
+
         if (vel_active) {
+            // 速度消息仍有效，正常发送期望速度
             active_cmd_.cmd = CMD_VELOCITY;
             std::copy(desired_vel_, desired_vel_ + 4, active_cmd_.data);
             active_cmd_.priority = PRIORITY_VELOCITY;
             active_cmd_.is_one_shot = false;
         } else {
-            active_cmd_.cmd = CMD_HEARTBEAT;
-            std::fill(active_cmd_.data, active_cmd_.data + 4, 0.0f);
-            active_cmd_.priority = PRIORITY_HEARTBEAT;
-            active_cmd_.is_one_shot = false;
+            // 速度已超时，降级处理：先发零速包再转心跳
+            // 判断当前是否已经处于“一次性零速过渡”状态
+            bool in_zero_transition = (active_cmd_.cmd == CMD_VELOCITY && active_cmd_.is_one_shot);
+            if (!in_zero_transition) {
+                // 首次超时：设置一个一次性零速命令，下次发送
+                active_cmd_.cmd = CMD_VELOCITY;
+                std::fill(active_cmd_.data, active_cmd_.data + 4, 0.0f);
+                active_cmd_.priority = PRIORITY_VELOCITY;
+                active_cmd_.is_one_shot = true;
+            } else {
+                // 已经发送过零速过渡包，转为心跳包
+                active_cmd_.cmd = CMD_HEARTBEAT;
+                std::fill(active_cmd_.data, active_cmd_.data + 4, 0.0f);
+                active_cmd_.priority = PRIORITY_HEARTBEAT;
+                active_cmd_.is_one_shot = false;
+            }
         }
     }
 
