@@ -79,6 +79,7 @@ git clone https://github.com/your-org/serial_protocol_node.git
 cd ..
 colcon build --packages-select serial_protocol_node
 source install/setup.bash
+```
 ### 2. 参数配置
 
 节点支持以下 ROS 2 参数，可在启动时通过命令行或 YAML 文件覆盖：
@@ -101,6 +102,7 @@ ros2 run serial_protocol_node serial_protocol_node --ros-args \
   -p port:=/dev/ttyUSB0 \
   -p baud:=921600 \
   -p send_rate_hz:=20.0
+```
 ### 4. 发送速度指令
 
 ```bash
@@ -108,7 +110,7 @@ ros2 run serial_protocol_node serial_protocol_node --ros-args \
 ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.5}, angular: {z: 0.1}}"
 停止发布后，节点将在 `vel_timeout` 秒后自动执行零速降级。
-
+```
 ### 5. 发送展示数据（16 字节十六进制）
 
 例如需要向飞控发送四个浮点数 `[1.0, 2.0, 3.0, 4.0]`，其 IEEE 754 小端表示为  
@@ -125,7 +127,7 @@ ros2 topic pub /display_data std_msgs/msg/ByteMultiArray \
 ros2 topic pub /display_data std_msgs/msg/ByteMultiArray \
   "{data: [!hex 0x00, !hex 0x00, !hex 0x80, !hex 0x3F, !hex 0x00, !hex 0x00, !hex 0x00, !hex 0x40, !hex 0x00, !hex 0x00, !hex 0x40, !hex 0x40, !hex 0x00, !hex 0x00, !hex 0x80, !hex 0x40]}"
 一旦收到数据，节点将以 10 Hz 持续发送 `CMD_DISPLAY` 帧，直至超时或被更高优先级命令抢占。
-
+```
 ### 6. 调用服务
 
 四个服务均为一次性触发，调用后立即生效并发送对应帧一次：
