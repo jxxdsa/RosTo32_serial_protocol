@@ -75,7 +75,7 @@ Byte |  0  |  1  |  2..5  |  6..9  | 10..13 | 14..17 |  18  |  19
 
 ```bash
 cd ros2_ws/src
-git clone https://github.com/your-org/serial_protocol_node.git
+git clone https://github.com/jxxdsa/RosTo32_serial_protocol.git
 cd ..
 colcon build --packages-select serial_protocol_node
 source install/setup.bash
