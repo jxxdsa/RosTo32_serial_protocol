@@ -98,3 +98,4 @@ ros2 service call /serial_protocol_node/disarm std_srvs/srv/Trigger
 ros2 service call /serial_protocol_node/emergency std_srvs/srv/Trigger
 ```
 ⚠️ 仅限紧急情况使用，调用后飞行器会立即停止所有电机。
+(新版本添加关于360保护代码，但暂不启用)
